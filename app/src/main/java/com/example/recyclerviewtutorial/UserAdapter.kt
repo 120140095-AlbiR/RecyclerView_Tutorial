@@ -5,27 +5,25 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import kotlinx.android.synthetic.main.item_user.view.*
+import com.example.recyclerviewtutorial.databinding.ItemUserBinding
+
 
 class UserAdapter(private val users: List<User>) :
     RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
 
-    inner class UserViewHolder(itemView: View) :
-        RecyclerView.ViewHolder(itemView) {
+    inner class UserViewHolder constructor (val binding: ItemUserBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(user: User) {
-            itemView.txtName.text = "${user.firstName} ${user.lastName}"
-            itemView.txtEmail.text = user.email
+            binding.txtName.text = "${user.firstName} ${user.lastName}"
+            binding.txtEmail.text = user.email
             Glide.with(itemView)
                 .load(user.avatar)
-                .into(itemView.imgAvatar)
+                .into(binding.imgAvatar)
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):
             UserViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_user, parent, false)
-        return UserViewHolder(view)
+        return UserViewHolder(ItemUserBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
     override fun onBindViewHolder(holder: UserViewHolder, position: Int)
